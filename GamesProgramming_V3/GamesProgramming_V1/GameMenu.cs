@@ -32,6 +32,7 @@ namespace GamesProgramming_V1
             main.Find(X => X.AssetName == "MenuBoxexit").MoveElement(400, 400);
         }
 
+        //Menu Update
         public void Update()
         {
             foreach (GUIElement element in main)
@@ -40,6 +41,7 @@ namespace GamesProgramming_V1
             }
         }
 
+        //Drawing of menu items
         public void Draw(SpriteBatch spriteBatch)
         {
             foreach (GUIElement element in main)
@@ -48,6 +50,7 @@ namespace GamesProgramming_V1
             }
         }
 
+        //When Buttons are clicked
         public void OnClick(string element)
         {
             if (element == "MenuBoxplay")

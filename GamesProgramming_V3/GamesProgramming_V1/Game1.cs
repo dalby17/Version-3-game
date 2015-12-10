@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.Text;
 
 namespace GamesProgramming_V1
@@ -9,7 +10,8 @@ namespace GamesProgramming_V1
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D texture, player, platform, flag, coin;
+        SpriteFont font;
+        Texture2D background, player, platform, flag, coin;
         Vector2 texturePos, velocity;
         Vector2 texturePos1;
         Vector2 texturePos2;
@@ -18,6 +20,8 @@ namespace GamesProgramming_V1
         Vector2 texturePos5;
 
         GameMenu main = new GameMenu();
+        //Float for timer starting point
+        float timer = 10;
 
         //Gravity strength and movement speed
         const float gravity = 100f;
@@ -138,11 +142,12 @@ namespace GamesProgramming_V1
 
             //Asset content
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            texture = this.Content.Load<Texture2D>("Background");
+            background = this.Content.Load<Texture2D>("Background");
             player = this.Content.Load<Texture2D>("Bike1");
             platform = this.Content.Load<Texture2D>("Platform");
             flag = this.Content.Load<Texture2D>("flag");
             coin = this.Content.Load<Texture2D>("coin");
+            font = this.Content.Load<SpriteFont>("Timerfont");
         }
 
         protected override void UnloadContent()
@@ -198,8 +203,10 @@ namespace GamesProgramming_V1
                 }
 
                 if (hasJumped == false)
+                {
                     velocity.Y = 0f;
                     hasJumped = false;
+                }
                 
                 //collision detection reaction
                 if (Collide())
@@ -242,6 +249,14 @@ namespace GamesProgramming_V1
                     Exit();
                 }
 
+                //Timer countdown
+                timer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
+                //When timer hits 0
+                if (timer == 0)
+                {
+                    Exit();
+                }
+
                 base.Update(gameTime);
             }
         }
@@ -253,13 +268,14 @@ namespace GamesProgramming_V1
 
             //Sprites
             spriteBatch.Begin();
-            main.Draw(spriteBatch);
-            //spriteBatch.Draw(texture, texturePos1);
+            //main.Draw(spriteBatch);
+            spriteBatch.Draw(background, texturePos1);
             spriteBatch.Draw(player, texturePos);
             spriteBatch.Draw(platform, texturePos2);
             spriteBatch.Draw(platform, texturePos3);
             spriteBatch.Draw(flag, texturePos4);
             spriteBatch.Draw(coin, texturePos5);
+            spriteBatch.DrawString(font, "Time Left: " + timer.ToString("0"), new Vector2(0, 0), Color.Red);
             spriteBatch.End();
 
             base.Draw(gameTime);

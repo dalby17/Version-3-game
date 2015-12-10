@@ -101,3 +101,9 @@
 /processorParam:TextureFormat=Color
 /build:MenuBoxplay.png
 
+#begin Timerfont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Timerfont.spritefont
+
